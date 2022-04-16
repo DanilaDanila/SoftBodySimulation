@@ -2,11 +2,18 @@ cmake_minimum_required(VERSION 3.15)
 
 project(SoftBody)
 
-cmake_minimum_required(VERSION 3.7)
-project(SDL2Test)
+set (CMAKE_CXX_STANDARD 14)
 
-find_package(SDL2 REQUIRED)
-include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
+if (UNIX)
+    # UNIX-like
+    find_package(SDL2 REQUIRED)
+    include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
+else (UNIX)
+    # Windows (I hope...)
 
-add_executable(sdl_test src/main.cpp src/vec2.h src/renderer.h)
-target_link_libraries(sdl_test ${SDL2_LIBRARIES})
+endif (UNIX)
+
+add_executable(vec2_test src/vec2_test.cpp src/vec2.h src/doctest.h)
+
+add_executable(sandbox src/main.cpp src/vec2.h src/renderer.h)
+target_link_libraries(sandbox ${SDL2_LIBRARIES})
