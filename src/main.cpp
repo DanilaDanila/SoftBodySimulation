@@ -1,8 +1,10 @@
 #include "phys.h"
 #include "renderer.h"
 #include <cassert>
+#include <chrono>
 #include <cmath>
 #include <memory>
+#include <thread>
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 640
@@ -48,8 +50,6 @@ int main(int argc, char *args[]) {
   sandbox.setAcceleration(Vec2(.0f, .1f));
 
   BodyCreator bcreator;
-
-  std::shared_ptr<Window> window(new SDLWindow(640, 640));
 
   // some body
   bcreator.addPoint(Vec2(.4f, .4f));
@@ -104,7 +104,18 @@ int main(int argc, char *args[]) {
 
   // std::shared_ptr<Window> window(new SDLWindow(640, 640));
 
-  while (true) {
+  std::shared_ptr<Window> window(new SDLWindow(640, 640));
+
+  SDL_Event event;
+
+  bool running = true;
+  while (running) {
+    while (SDL_PollEvent(&event)) {
+      if (event.type == SDL_QUIT) {
+        running = false;
+      }
+    }
+
     sandbox.update(.02);
 
     window->Clear();
@@ -119,7 +130,8 @@ int main(int argc, char *args[]) {
 
     window->Present();
 
-    SDL_Delay(20);
+    // SDL_Delay(20);
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
   }
 
   return 0;
