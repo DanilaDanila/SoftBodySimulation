@@ -1,21 +1,8 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-/*
- *   screenSurface = SDL_GetWindowSurface(window);
- *   SDL_FillRect(screenSurface, NULL,
- *                SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
- *   SDL_UpdateWindowSurface(window);
- *
- *   SDL_Delay(2000);
- *   SDL_DestroyWindow(window);
- *   SDL_Quit();
- *   return 0;
- * }
- */
-
+#include "phys.h"
 #include <SDL2/SDL.h>
-#include <stdio.h>
 
 class Window {
 public:
@@ -26,6 +13,8 @@ public:
   virtual void DrawPoint(int x, int y) = 0;
 
   virtual void Present() = 0;
+
+  virtual void drawBody(const Body *const) = 0;
 };
 
 class SDLWindow : public Window {
@@ -53,6 +42,18 @@ public:
 
   virtual void Present() { SDL_RenderPresent(_renderer); }
 
+  virtual void drawBody(const Body *const body) {
+    for (int i = 0; i < body->points_count; ++i) {
+      int j = (i + 1) % body->points_count;
+
+      int from_x = body->points[i].current_position.x * _width;
+      int from_y = body->points[i].current_position.y * _height;
+      int to_x = body->points[j].current_position.x * _width;
+      int to_y = body->points[j].current_position.y * _height;
+      SDL_RenderDrawLine(_renderer, from_x, from_y, to_x, to_y);
+    }
+  }
+
   virtual ~SDLWindow() {
     SDL_DestroyWindow(_window);
     SDL_Quit();
@@ -67,24 +68,3 @@ private:
 };
 
 #endif // RENDERER_H
-
-/*
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */

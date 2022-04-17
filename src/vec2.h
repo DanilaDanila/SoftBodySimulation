@@ -40,6 +40,26 @@ struct Vec2 {
     y *= alpha;
     return *this;
   }
+
+  Vec2 &operator/=(const float &alpha) {
+    x /= alpha;
+    y /= alpha;
+    return *this;
+  }
+
+  // implace normalization
+  Vec2 &inormalize() {
+    const float _abs = this->abs();
+    this->x /= _abs;
+    this->y /= _abs;
+    return *this;
+  }
+
+  // normalization
+  const Vec2 normalize() const {
+    const float _abs = this->abs();
+    return Vec2(this->x / _abs, this->y / _abs);
+  }
 };
 
 inline const Vec2 operator+(const Vec2 &first, const Vec2 &second) {
@@ -58,6 +78,10 @@ inline const Vec2 operator*(const float &alpha, const Vec2 &vec) {
   return Vec2(vec) *= alpha;
 }
 
+inline const Vec2 operator/(const Vec2 &vec, const float &alpha) {
+  return Vec2(vec) /= alpha;
+}
+
 // dot product
 inline float operator*(const Vec2 &first, const Vec2 &second) {
   return first.x * second.x + first.y * second.y;
@@ -70,6 +94,14 @@ inline float operator*(const Vec2 &first, const Vec2 &second) {
  */
 inline float operator^(const Vec2 &first, const Vec2 &second) {
   return first.x * second.y - first.y * second.x;
+}
+
+inline Vec2 normal(const Vec2 &point, const Vec2 &line0, const Vec2 &line1) {
+  const Vec2 pl0 = line0 - point;
+  const Vec2 pl1 = line1 - point;
+  const Vec2 l0l1 = line1 - line0;
+
+  return (pl0 ^ pl1) * Vec2(l0l1.y, -l0l1.x) / l0l1.sqr_abs();
 }
 
 #endif // VEC2_H

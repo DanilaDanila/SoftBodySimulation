@@ -1,12 +1,21 @@
+#include "phys.h"
 #include "renderer.h"
 #include <memory>
 
 int main(int argc, char *args[]) {
-  std::unique_ptr<Window> window(new SDLWindow(640, 480));
+  BodyCreator bc;
+  bc.addPoint(Vec2(.1f, .1f));
+  bc.addPoint(Vec2(.9f, .1f));
+  bc.addPoint(Vec2(.9f, .6f));
+  bc.addPoint(Vec2(.5f, .8f));
+  bc.addPoint(Vec2(.1f, .6f));
+
+  Body body = bc.createBody();
+
+  std::shared_ptr<Window> window(new SDLWindow(640, 640));
 
   window->Clear();
-  window->DrawLine(0, 0, 200, 200);
-  window->DrawLine(200, 0, 0, 200);
+  window->drawBody(&body);
   window->Present();
 
   SDL_Delay(2000);

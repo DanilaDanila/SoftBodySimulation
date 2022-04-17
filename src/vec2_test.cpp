@@ -4,7 +4,7 @@
 
 TEST_CASE("mock test") { CHECK(true); }
 
-TEST_CASE("just compiles") { Vec2 v(); }
+TEST_CASE("just compiles") { Vec2 v; }
 
 TEST_CASE("constructor") {
   {
@@ -111,5 +111,73 @@ TEST_CASE("cross product") {
     Vec2 v1(0.f, 1.f);
     CHECK((v0 ^ v1) - 2. < eps);
     CHECK((v1 ^ v0) + 2. < eps);
+  }
+}
+
+TEST_CASE("normal") {
+  const float eps = 1e-4;
+  {
+    const Vec2 l0(-1.f, 1.f);
+    const Vec2 l1(1.f, 1.f);
+    const Vec2 r(0.f, 0.f);
+
+    const Vec2 nnn = normal(r, l0, l1);
+    CHECK((nnn - Vec2(.0f, 1.f)).sqr_abs() < eps);
+  }
+  {
+    const Vec2 l0(1.f, 1.f);
+    const Vec2 l1(1.f, -1.f);
+    const Vec2 r(0.f, 0.f);
+
+    const Vec2 nnn = normal(r, l0, l1);
+    CHECK((nnn - Vec2(1.f, 0.f)).sqr_abs() < eps);
+  }
+  {
+    const Vec2 l0(-1.f, -1.f);
+    const Vec2 l1(1.f, -1.f);
+    const Vec2 r(0.f, 0.f);
+
+    const Vec2 nnn = normal(r, l0, l1);
+    CHECK((nnn - Vec2(.0f, -1.f)).sqr_abs() < eps);
+  }
+  {
+    const Vec2 l0(-1.f, 1.f);
+    const Vec2 l1(-1.f, -1.f);
+    const Vec2 r(0.f, 0.f);
+
+    const Vec2 nnn = normal(r, l0, l1);
+    CHECK((nnn - Vec2(-1.f, 0.f)).sqr_abs() < eps);
+  }
+  {
+    const Vec2 l0(0.f, 1.f);
+    const Vec2 l1(1.f, 0.f);
+    const Vec2 r(0.f, 0.f);
+
+    const Vec2 nnn = normal(r, l0, l1);
+    CHECK((nnn - Vec2(.5f, .5f)).sqr_abs() < eps);
+  }
+  {
+    const Vec2 l0(1.f, 0.f);
+    const Vec2 l1(0.f, -1.f);
+    const Vec2 r(0.f, 0.f);
+
+    const Vec2 nnn = normal(r, l0, l1);
+    CHECK((nnn - Vec2(.5f, -.5f)).sqr_abs() < eps);
+  }
+  {
+    const Vec2 l0(0.f, -1.f);
+    const Vec2 l1(-1.f, 0.f);
+    const Vec2 r(0.f, 0.f);
+
+    const Vec2 nnn = normal(r, l0, l1);
+    CHECK((nnn - Vec2(-.5f, -.5f)).sqr_abs() < eps);
+  }
+  {
+    const Vec2 l0(-1.f, 0.f);
+    const Vec2 l1(0.f, 1.f);
+    const Vec2 r(0.f, 0.f);
+
+    const Vec2 nnn = normal(r, l0, l1);
+    CHECK((nnn - Vec2(-.5f, .5f)).sqr_abs() < eps);
   }
 }
