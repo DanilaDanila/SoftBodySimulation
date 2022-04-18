@@ -30,6 +30,7 @@
 2. Скачиваем "Development Libraries" для нужного компилятора
 
 3. Открываем CMakeLists.txt и прописываем пути до папок `include` и `lib`
+
    Например так:
 
    ```{cmake}
