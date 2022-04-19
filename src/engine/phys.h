@@ -1,7 +1,7 @@
 #ifndef PHYS_H
 #define PHYS_H
 
-#include "vec2.h"
+#include <vec2.h>
 #include <utility>
 #include <vector>
 

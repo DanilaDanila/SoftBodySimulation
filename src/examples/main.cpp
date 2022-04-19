@@ -1,9 +1,9 @@
-#include "phys.h"
-#include "renderer.h"
 #include <cassert>
 #include <chrono>
 #include <cmath>
 #include <memory>
+#include <phys.h>
+#include <renderer.h>
 #include <thread>
 
 #define WINDOW_WIDTH 640

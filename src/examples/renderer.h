@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "phys.h"
+#include <phys.h>
 #include <SDL2/SDL.h>
 
 class Window {
