@@ -4,15 +4,15 @@ project(SoftBody)
 
 set (CMAKE_CXX_STANDARD 14)
 
-include_directories(src/thirdparty)
-include_directories(src/engine)
-include_directories(src/examples)
+include_directories(thirdparty)
+include_directories(engine)
+include_directories(examples)
 
-add_executable(vec2_test src/tests/vec2_test.cpp)
+add_executable(vec2_test tests/vec2_test.cpp)
 
-add_executable(phys_test src/tests/phys_test.cpp)
+add_executable(phys_test tests/phys_test.cpp)
 
-add_executable(sandbox src/examples/main.cpp)
+add_executable(sandbox examples/main.cpp)
 
 if (UNIX)
     # UNIX-like
