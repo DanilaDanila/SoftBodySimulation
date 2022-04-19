@@ -14,7 +14,7 @@ if (UNIX)
     # UNIX-like
     find_package(SDL2 REQUIRED)
 
-    include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
+    include_directories(${SDL2_INCLUDE_DIRS})
     target_link_libraries(sandbox ${SDL2_LIBRARIES})
 else (UNIX)
     include(FetchContent)
@@ -43,6 +43,6 @@ else (UNIX)
     set(SDL2_INCLUDE_DIRS ${SDL2_SRC}/x86_64-w64-mingw32/include)
     set(SDL2_LIBRARIES ${SDL2_SRC}/x86_64-w64-mingw32/lib)
 
-    include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
+    include_directories(${SDL2_INCLUDE_DIRS})
     target_link_libraries(sandbox -lmingw32 ${SDL2_LIBRARIES}/libSDL2main.a ${SDL2_LIBRARIES}/libSDL2.dll.a -mwindows)
 endif (UNIX)
