@@ -28,25 +28,40 @@ else (UNIX)
             cmake_scripts
             URL https://www.libsdl.org/release/SDL2-devel-2.0.20-mingw.tar.gz
         )
+        FetchContent_Populate(cmake_scripts)
+
+        set(SDL2_SRC ${cmake_scripts_SOURCE_DIR})
+
+        message(STATUS "all sources: " ${SDL2_SRC})
+        message(STATUS "include: " ${SDL2_SRC}/x86_64-w64-mingw32/include)
+        message(STATUS "libs: " ${SDL2_SRC}/x86_64-w64-mingw32/lib/libSDL2main.a " " ${SDL2_SRC}/x86_64-w64-mingw32/lib/libSDL2.dll.a)
+
+        configure_file(${SDL2_SRC}/x86_64-w64-mingw32/bin/SDL2.dll "./SDL2.dll" COPYONLY)
+
+        set(SDL2_INCLUDE_DIRS ${SDL2_SRC}/x86_64-w64-mingw32/include)
+        set(SDL2_LIBRARIES ${SDL2_SRC}/x86_64-w64-mingw32/lib/libSDL2main.a ${SDL2_SRC}/x86_64-w64-mingw32/lib/libSDL2.dll.a)
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         FetchContent_Declare(
             cmake_scripts
             URL https://www.libsdl.org/release/SDL2-devel-2.0.20-VC.zip
         )
+        FetchContent_Populate(cmake_scripts)
+
+        set(SDL2_SRC ${cmake_scripts_SOURCE_DIR})
+
+        message(STATUS "all sources: " ${SDL2_SRC})
+        message(STATUS "include: " ${SDL2_SRC}/include)
+        message(STATUS "libs: " ${SDL2_SRC}/lib/x64/SDL2main.lib " " ${SDL2_SRC}/lib/x64/SDL2.lib)
+
+        configure_file(${SDL2_SRC}/lib/x64/SDL2.dll "./SDL2.dll" COPYONLY)
+
+        add_definitions(-DNO_SDL2_DIR)
+
+        set(SDL2_INCLUDE_DIRS ${SDL2_SRC}/include)
+        set(SDL2_LIBRARIES ${SDL2_SRC}/lib/x64/SDL2main.lib " " ${SDL2_SRC}/lib/x64/SDL2.lib)
     endif ()
-    FetchContent_Populate(cmake_scripts)
-
-    set(SDL2_SRC ${cmake_scripts_SOURCE_DIR})
-
-    message(STATUS "all sources: " ${SDL2_SRC})
-    message(STATUS "include: " ${SDL2_SRC}/x86_64-w64-mingw32/include)
-    message(STATUS "libs: " ${SDL2_SRC}/x86_64-w64-mingw32/lib/libSDL2main.a " " ${SDL2_SRC}/x86_64-w64-mingw32/lib/libSDL2.dll.a)
-
-    configure_file(${SDL2_SRC}/x86_64-w64-mingw32/bin/SDL2.dll "./SDL2.dll" COPYONLY)
-
-    set(SDL2_INCLUDE_DIRS ${SDL2_SRC}/x86_64-w64-mingw32/include)
-    set(SDL2_LIBRARIES ${SDL2_SRC}/x86_64-w64-mingw32/lib)
+    
 
     include_directories(${SDL2_INCLUDE_DIRS})
-    target_link_libraries(sandbox -lmingw32 ${SDL2_LIBRARIES}/libSDL2main.a ${SDL2_LIBRARIES}/libSDL2.dll.a -mwindows)
+    target_link_libraries(sandbox -lmingw32 ${SDL2_LIBRARIES} -mwindows)
 endif (UNIX)

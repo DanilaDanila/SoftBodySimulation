@@ -2,7 +2,12 @@
 #define RENDERER_H
 
 #include <phys.h>
+
+#ifdef NO_SDL2_DIR
+#include <SDL.h>
+#else // NO_SDL2_DIR
 #include <SDL2/SDL.h>
+#endif // NO_SDL2_DIR
 
 class Window {
 public:
